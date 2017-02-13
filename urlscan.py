@@ -23,7 +23,7 @@ def transfer_contacts_to_sqlitedb(url_to_check):
     #re.findall(r"\+\d{2}\s?0?\d{10}",s)
 
     # search for first and last name
-    first_last_names = re.findall(r"[A-Z]{1}[A-Za-z-]+\xa0[A-Z]{1}[A-Za-z-]+",s)  #\xa0 is &nbsp; 
+    first_last_names = re.findall(r"[A-Z]{1}[A-Za-z-]+\xa0[A-Z]{1}[A-Za-z-]+",s) #\xa0 is &nbsp; 
 
     # searches for email addresses
     email_addresses = re.findall(r"[\w._%+-]+@[\w.-]+\.[A-Za-z]{2,4}",s)  
