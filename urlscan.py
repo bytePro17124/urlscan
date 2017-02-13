@@ -15,7 +15,7 @@ def pass_to_database(id_fname_lname_email):
 
 
 
-def transfer_contacts_to_sqlitedb():
+def transfer_contacts_to_sqlitedb(url_to_check):
     f = urllib.request.urlopen(url_to_check)   # open the url
     s = f.read().decode('utf-8')               # read in and convert bytes 
                                                # to string
@@ -23,10 +23,10 @@ def transfer_contacts_to_sqlitedb():
     #re.findall(r"\+\d{2}\s?0?\d{10}",s)
 
     # search for first and last name
-    re.finall(r"[]+&nbsp+[]",s)
+    first_last_names = re.findall(r"[A-Za-z]+\xa0[A-Za-z]+",s)  #\xa0 is &nbsp; 
 
     # searches for email addresses
-    re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",s)  
+    email_addresses = re.findall(r"[\w._%+-]+@[\w.-]+\.[A-Za-z]{2,4}",s)  
 
 
 
@@ -35,8 +35,6 @@ def main(argv):
     url_to_check = "https://www.ohio.edu/engineering/about/people"
 
     transfer_contacts_to_sqlitedb(url_to_check)
-
-
 
 
 if __name__ == "__main__":
