@@ -6,7 +6,7 @@
 #                      database.
 ########################################################################################
 
-import sqllite3                               # for database work
+import sqlite3                                # for database work
 import urllib.request                         # for urlopen
 import re                                     # for regular expressiosn
 import sys                                    # for the command line argument
@@ -14,7 +14,7 @@ import sys                                    # for the command line argument
 
 def pass_to_database(fname_lname, email, _database):
     sql_create_contactdb_table = """ CREATE TABLE IF NOT EXISTS contactdb (
-                                        id integer PRIMARY KEY,
+                                        id integer PRIMARY KEY AUTOINCREMENT,
                                         firstname text NOT NULL,
                                         lastname text NOT NULL,
                                         emailaddress text NOT NULL
@@ -22,11 +22,10 @@ def pass_to_database(fname_lname, email, _database):
 
     # create a database connection
     conn = create_connection(_database)
+
     if conn is not None:
         # create projects table
-        create_table(conn, sql_create_projects_table)
-        # create tasks table
-        create_table(conn, sql_create_tasks_table)
+        create_table(conn, sql_create_contactdb_table)
     else:
         print("Error! cannot create the database connection.")
 
@@ -40,9 +39,9 @@ def pass_to_database(fname_lname, email, _database):
 
         
             
-def create_connection(db_file):
+def create_connection(_database):
     try:
-        conn = sqlite3.connect(db_file)
+        conn = sqlite3.connect(_database)
         return conn
     except Exception as e:
         print(e)
@@ -69,33 +68,53 @@ def create_project(conn, contact):
 #     cur.execute(sql, task)
 #     return cur.lastrowid
 
-def prepare_contact_for_db():
+def prepare_contact_for_db(firstandlastnames, emailaddresses):
     #make a list of firstname, lastname, email
     #and return it
+    results = []
+    lst = []
+    for e in range(len(emailaddresses)):
+        lst = firstandlastnames[e].split("\xa0", 2)
+        lst.append(emailaddresses[e])
+        # print (lst)  #just to test that it is working
+        results.append(lst)
+    print (results)
+
+
+    return results
+
 
 
 def transfer_contacts_to_sqlitedb(_url, _database):
-    f = urllib.request.urlopen(_url)   # open the url
-    s = f.read().decode('utf-8')               # read in and convert bytes 
-                                               # to string
-    # searches for phone numbers - not needed
-    #re.findall(r"\+\d{2}\s?0?\d{10}",s)
-
-    # search for first and last name
+    # open the url sepcified
+    f = urllib.request.urlopen(_url)
+    
+    # read in teh data from the url convert bytes to characters 
+    s = f.read().decode('utf-8')               
+    
+    # search for firstname&nbsp;lastname combinantion and store in a list
     first_last_names = re.findall(r"[A-Z]{1}[A-Za-z-]+\xa0[A-Z]{1}[A-Za-z-]+",s) #\xa0 is &nbsp; 
+    # change it int a set to remove duplicates then back to a list
+    set(first_last_names)
+    list(first_last_names) 
 
-    # searches for email addresses
+
+    # search for emails and store in a list
     email_addresses = re.findall(r"[\w._%+-]+@[\w.-]+\.[A-Za-z]{2,4}",s)  
-
+    # change it into a set to remove duplicates then back to a list
+    set(email_addresses)
+    list(email_addresses)
+    
+    # pass this newfound data to our functon that works with the sqllite3 database
+    # they should already be in order
     pass_to_database(first_last_names, email_addresses, _database)
-
 
 
 def main(argv):
 
     if len(argv) > 1:
-        print('Too many arguments')                     #print proper format of arguments
-        print('emailscrape.py <db_name>')               #print proper format of arguments
+        print('Too many arguments')
+        print('use \'urlscan.py databasename.db\'')
         sys.exit()
 
     url_to_check = "https://www.ohio.edu/engineering/about/people"
