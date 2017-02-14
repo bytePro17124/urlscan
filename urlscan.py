@@ -69,11 +69,7 @@ def prepare_contact_for_db(firstandlastnames, emailaddresses):
         lst.append(emailaddresses[e])
         print (lst)  #just to test that it is working
         results.append(lst)
-
-    # print (results)
-
     return results
-
 
 
 def transfer_contacts_to_sqlitedb(_url, _database):
@@ -84,18 +80,15 @@ def transfer_contacts_to_sqlitedb(_url, _database):
     s = f.read().decode('utf-8')               
     
     # search for firstname&nbsp;lastname combinantion and store in a list
-    first_last_names = re.findall(r"[A-Z]{1}[A-Za-z-]+\xa0[A-Z]{1}[A-Za-z-]+",s) #\xa0 is &nbsp; 
+    first_last_names = re.findall(r"[A-Z]{1}[.A-Za-z-]+\s*[A-Z]*.*\xa0[A-Z]{1}[A-Za-z-]+",s) #\xa0 is &nbsp; 
 
     # search for emails and store in a list
     email_addresses = re.findall(r"(?<=mailto:)[\w._%+-]+@[\w.-]+\.[A-Za-z]{2,4}",s)
     # email_addresses = re.findall(r"[\w._%+-]+@[\w.-]+\.[A-Za-z]{2,4}",mailto)
-
     
     # pass this newfound data to our functon that works with the sqllite3 database
     # they should already be in order
     pass_to_database(first_last_names, email_addresses, _database)
-
-
 
 
 
