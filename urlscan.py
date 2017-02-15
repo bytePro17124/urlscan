@@ -13,36 +13,36 @@ import sys                                    # for the command line argument
 
 def export_to_sqlite3(fname_lname, email, _database):
 
-    ## OPEN DATABASE
-    sql_create_contactdb_table = ''' CREATE TABLE IF NOT EXISTS contactdb (
-                                        id integer PRIMARY KEY AUTOINCREMENT,
-                                        firstname text NOT NULL,
-                                        lastname text NOT NULL,
-                                        emailaddress text NOT NULL
-                                    ); '''
-        # create a database connection
+	# create a database connection
+	try:
+		conn = sqlite3.connect(_database)
+	except sqlite3.Error as e:
+		print("Connection to database error: %s" % e)
 
-    conn = sqlite3.connect(_database)
+	# fire up a cursor
+	c = conn.cursor()
 
-    c = conn.cursor()
-    
-    try:
-        c.execute('''CREATE TABLE fresh_email_contacts\
-                 (ID integer PRIMARY KEY, FirstName text, LastName text, Email text)''')
-    except sqlite.error:
-        print("problem initializing the database")
+	# use the curosr to create a starting table
+	try:
+		c.execute('''CREATE TABLE fresh_email_contacts
+					(ID integer PRIMARY KEY, FirstName text,
+					LastName text, Email text)''')
+	except sqlite3.Error:
+		print("problem initializing the database")
 
+	# turn our data source into a proper list of lists ready to export
+	db_ready_list = prepare_contact_for_db(fname_lname, email)
 
-    exports = prepare_contact_for_db(fname_lname, email)
-    
-    for e in exports:
-        c.execute("INSERT INTO fresh_email_contacts VALUES (?,?,?)", (e[0],e[1],e[2]))
+	for e in db_ready_list:
+		c.execute('''INSERT INTO fresh_email_contacts
+					(FirstName,LastName,Email) VALUES (?,?,?)''',\
+					(e[0],e[1],e[2]))
 
-    conn.commit()
+	conn.commit()
 
-    conn.close()
+	conn.close()
 
-    # conn = create_connection(database)
+	# conn = create_connection(database)
     # if conn is not None:
     #     # create projects table
     #     create_table(conn, sql_create_projects_table)
