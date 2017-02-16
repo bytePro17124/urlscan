@@ -1,0 +1,28 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+create_connection	emailscrape.py	/^def create_connection(db_file):$/;"	kind:function	line:6
+create_connection	ruined.py	/^def create_connection(db_file):$/;"	kind:function	line:57
+create_connection	urlscan/urlscan.py	/^def create_connection(db_file):$/;"	kind:function	line:57
+create_project	emailscrape.py	/^def create_project(conn, project):$/;"	kind:function	line:21
+create_project	ruined.py	/^def create_project(conn, project):$/;"	kind:function	line:72
+create_project	urlscan/urlscan.py	/^def create_project(conn, project):$/;"	kind:function	line:72
+create_table	emailscrape.py	/^def create_table(conn, create_table_sql):$/;"	kind:function	line:14
+create_table	ruined.py	/^def create_table(conn, create_table_sql):$/;"	kind:function	line:65
+create_table	urlscan/urlscan.py	/^def create_table(conn, create_table_sql):$/;"	kind:function	line:65
+create_task	emailscrape.py	/^def create_task(conn, task):$/;"	kind:function	line:28
+create_task	ruined.py	/^def create_task(conn, task):$/;"	kind:function	line:79
+create_task	urlscan/urlscan.py	/^def create_task(conn, task):$/;"	kind:function	line:79
+emailscrape.py	emailscrape.py	1;"	kind:file	line:1
+main	emailscrape.py	/^def main(argv):                                         #main with input$/;"	kind:function	line:35
+main	ruined.py	/^def main(argv):$/;"	kind:function	line:101
+main	urlscan/urlscan.py	/^def main(argv):$/;"	kind:function	line:101
+pass_to_database	ruined.py	/^def pass_to_database(id_fname_lname_email, database):$/;"	kind:function	line:14
+pass_to_database	urlscan/urlscan.py	/^def pass_to_database(id_fname_lname_email, database):$/;"	kind:function	line:14
+ruined.py	ruined.py	1;"	kind:file	line:1
+transfer_contacts_to_sqlitedb	ruined.py	/^def transfer_contacts_to_sqlitedb(url_to_check):$/;"	kind:function	line:86
+transfer_contacts_to_sqlitedb	urlscan/urlscan.py	/^def transfer_contacts_to_sqlitedb(url_to_check):$/;"	kind:function	line:86
+urlscan.py	urlscan/urlscan.py	1;"	kind:file	line:1
